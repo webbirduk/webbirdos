@@ -56,3 +56,30 @@ function webbird_menu_link_attributes( $atts, $item, $args ) {
     return $atts;
 }
 add_filter( 'nav_menu_link_attributes', 'webbird_menu_link_attributes', 10, 3 );
+
+// AJAX Live Search Logic
+add_action('wp_ajax_data_fetch', 'data_fetch');
+add_action('wp_ajax_nopriv_data_fetch', 'data_fetch');
+function data_fetch() {
+    $the_query = new WP_Query(array(
+        'posts_per_page' => 5,
+        's' => esc_attr($_POST['keyword']),
+        'post_type' => array('post', 'page'),
+        'post_status' => 'publish'
+    ));
+
+    if ($the_query->have_posts()) :
+        while ($the_query->have_posts()) : $the_query->the_post(); ?>
+            <div class="search-suggestion-item" onclick="window.location.href='<?php the_permalink(); ?>'">
+                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 mr-3">
+                    <i class="fas <?php echo (get_post_type() === 'page') ? 'fa-file' : 'fa-align-left'; ?> text-xs"></i>
+                </div>
+                <span class="text-sm font-semibold text-slate-800"><?php the_title(); ?></span>
+            </div>
+        <?php endwhile;
+        wp_reset_postdata();
+    else:
+        echo '<p class="text-xs text-slate-400 p-4">No results found.</p>';
+    endif;
+    die();
+}
