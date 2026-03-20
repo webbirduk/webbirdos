@@ -40,12 +40,16 @@
             pointer-events: auto;
             transform: scale(1);
         }
-        /* Remove dots from mobile menu */
-        #mobile-menu-overlay ul {
+
+        /* FIX: Remove dots from mobile menu list items */
+        #mobile-menu-overlay ul, 
+        #mobile-menu-overlay li {
             list-style: none !important;
-            padding: 0;
-            margin: 0;
+            list-style-type: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
+
         .mobile-nav-link {
             transition: all 0.3s ease;
             transform: translateY(20px);
@@ -117,7 +121,7 @@
                 wp_nav_menu( array(
                     'theme_location' => 'primary',
                     'container'      => false,
-                    'items_wrap'     => '%3$s',
+                    'items_wrap'     => '<ul class="space-y-6">%3$s</ul>',
                     'link_before'    => '<span class="mobile-nav-link text-3xl font-black">',
                     'link_after'     => '</span>',
                     'fallback_cb'    => false,
