@@ -187,3 +187,35 @@
             </div>
         </div>
     </div>
+
+    <script>
+    // Live Search JavaScript
+    function handleSearch(keyword) {
+        const dynamicResults = document.getElementById('dynamic-results');
+        const quickLinks = document.getElementById('quick-links');
+        const resultsList = document.getElementById('results-list');
+
+        if (keyword.length < 2) {
+            resultsList.innerHTML = '';
+            dynamicResults.classList.add('hidden');
+            quickLinks.classList.remove('hidden');
+            return;
+        }
+
+        quickLinks.classList.add('hidden');
+
+        const formData = new FormData();
+        formData.append('action', 'data_fetch');
+        formData.append('keyword', keyword);
+
+        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            resultsList.innerHTML = data;
+            dynamicResults.classList.remove('hidden');
+        });
+    }
+    </script>

@@ -477,34 +477,20 @@
             </div>
         </section>
 
-        <!-- REVIEWS -->
+		  <!-- reviews -->
         <section id="reviews">
-            <div class="text-center mb-12">
-                <h2 class="text-sm font-black text-white uppercase mb-4 tracking-widest">Client Feedback</h2>
-                <h3 class="text-3xl font-black mb-2 text-white">EXCELLENT</h3>
-                <p class="text-white/80">Based on 209 real London business reviews.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="glass p-8 rounded-3xl space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-sm">AMRAN HUSSAN</span>
-                        <span class="text-[10px] text-slate-400">11 months ago</span>
-                    </div>
-                    <p class="text-xs text-slate-600 leading-relaxed">"Great Service and Great People. Web Bird helped me launch my business online. They handled the website, branding visuals, and even gave my social media a fresh look."</p>
+            <div class="os-window glass rounded-[1rem] border border-white/50 overflow-hidden">
+                <div class="h-8 bg-gray-200/50 flex items-center px-4 space-x-2 border-b border-gray-300/30">
+                    <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                    <div class="flex-grow text-center text-[10px] text-gray-500 font-mono uppercase tracking-widest">Client Feedback</div>
                 </div>
-                <div class="glass p-8 rounded-3xl space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-sm">MAYAN ISLAM</span>
-                        <span class="text-[10px] text-slate-400">11 months ago</span>
+                <div class="p-8 sm:p-16">
+                    
+                    <div class="trustindex-container max-w-5xl mx-auto">
+                        <?php echo do_shortcode('[trustindex no-registration=google]'); ?>
                     </div>
-                    <p class="text-xs text-slate-600 leading-relaxed">"Web Bird was great from the start. They designed a clean, modern website for me, helped with social media, and created awesome visuals."</p>
-                </div>
-                <div class="glass p-8 rounded-3xl space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-sm">MEHMET ASLAN</span>
-                        <span class="text-[10px] text-slate-400">11 months ago</span>
-                    </div>
-                    <p class="text-xs text-slate-600 leading-relaxed">"Everything I Needed in One Place. They built my website, designed branding, and handled social media. Saved me time and stress."</p>
                 </div>
             </div>
         </section>
