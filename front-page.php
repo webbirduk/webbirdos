@@ -90,10 +90,10 @@
                                                 </div>
                                                 <span class="text-[11px] text-white/60 font-bold uppercase tracking-wide">Workload Capacity</span>
                                             </div>
-                                            <span class="text-white font-black text-lg tracking-tight">23 <span class="text-[10px] text-white/40 font-normal uppercase ml-1">Live Projects</span></span>
+                                            <span class="text-white font-black text-lg tracking-tight">4 <span class="text-[10px] text-white/40 font-normal uppercase ml-1">Live Projects</span></span>
                                         </div>
                                         <div class="h-2 w-full bg-white/5 rounded-full overflow-hidden p-[2px] border border-white/10">
-                                            <div class="h-full bg-gradient-to-r from-blue-600 to-indigo-400 rounded-full w-[82%] shadow-[0_0_10px_rgba(59,130,246,0.3)]"></div>
+                                            <div class="h-full bg-gradient-to-r from-blue-600 to-indigo-400 rounded-full w-[22%] shadow-[0_0_10px_rgba(59,130,246,0.3)]"></div>
                                         </div>
                                     </div>
                                     <div class="bg-white/5 border border-white/10 rounded-2xl p-4 relative overflow-hidden group hover:bg-white/10 transition-colors">
@@ -449,7 +449,7 @@
                 ?>
                     <div class="bg-white/40 rounded-[2.5rem] border border-white/60 group hover:bg-white/80 transition-all duration-500 overflow-hidden shadow-sm hover:shadow-2xl">
                         
-                        <div class="h-64 overflow-hidden bg-slate-200 relative">
+                        <div class="h-74 overflow-hidden bg-slate-200 relative">
                             <?php if($project->project_image): ?>
                                 <img src="<?php echo esc_url($project->project_image); ?>" alt="<?php echo esc_attr($project->project_name); ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             <?php else: ?>

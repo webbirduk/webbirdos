@@ -180,33 +180,80 @@ function case_studies_admin_page() {
 add_action('wp_ajax_webbird_contact', 'webbird_contact_handler');
 add_action('wp_ajax_nopriv_webbird_contact', 'webbird_contact_handler');
 
+// Updated AJAX Contact Form Handler to include all fields
 function webbird_contact_handler() {
-    $name = sanitize_text_field($_POST['name']);
-    $email = sanitize_email($_POST['email']);
+    // Sanitize all incoming fields from the form
+    $name    = sanitize_text_field($_POST['name']);
+    $email   = sanitize_email($_POST['email']);
+    $phone   = sanitize_text_field($_POST['phone']);
+    $service = sanitize_text_field($_POST['service']);
     $message = sanitize_textarea_field($_POST['message']);
+    
     $admin_email = get_option('admin_email');
-
     $headers = array('Content-Type: text/html; charset=UTF-8');
 
-    $admin_subject = "New Lead: Contact Form Submission from " . $name;
-    $admin_body = "<h2>New Contact Form Submission</h2>
-                   <p><strong>Name:</strong> $name</p>
-                   <p><strong>Email:</strong> $email</p>
-                   <p><strong>Message:</strong><br>$message</p>";
+    // 1. Detailed Admin Notification
+    $admin_subject = "New Lead: " . $service . " Inquiry from " . $name;
+    $admin_body = "
+        <div style='font-family: sans-serif; padding: 20px; border: 1px solid #eee;'>
+            <h2 style='color: #2563eb;'>New Contact Form Submission</h2>
+            <p><strong>Name:</strong> {$name}</p>
+            <p><strong>Email:</strong> {$email}</p>
+            <p><strong>Phone:</strong> {$phone}</p>
+            <p><strong>Interested Service:</strong> {$service}</p>
+            <p><strong>Message:</strong><br>{$message}</p>
+            <hr>
+            <p style='font-size: 10px; color: #999;'>Sent from Web Bird OS Dashboard</p>
+        </div>";
     
     wp_mail($admin_email, $admin_subject, $admin_body, $headers);
 
-    $cust_subject = "We've received your message - WebBird London";
-    $cust_body = "<div style='font-family: sans-serif; padding: 20px; border: 1px solid #eee;'>
-                    <h2 style='color: #2563eb;'>Hello $name,</h2>
-                    <p>Thank you for reaching out to WebBird. Our team has received your message and will get back to you within 24 hours.</p>
-                    <hr>
-                    <p style='color: #666;'><strong>Your message:</strong><br>$message</p>
-                    <hr>
-                    <p>Best regards,<br><strong>WebBird Support Team</strong></p>
-                  </div>";
+    // 2. Modern Professional Confirmation to Customer
+    $cust_subject = "We've received your message - Web Bird London";
+    $whatsapp_url = "https://wa.me/447557126699";
+    
+    $cust_body = "
+        <div style='background-color: #f8fafc; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif;'>
+            <div style='max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;'>
+                <div style='background: linear-gradient(135deg, #2563eb, #7c3aed); padding: 40px 30px; text-align: center;'>
+                    <h1 style='color: #ffffff; margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.025em;'>Web Bird</h1>
+                    <p style='color: rgba(255,255,255,0.9); margin-top: 10px; font-size: 16px;'>Digital Excellence Delivered</p>
+                </div>
+                
+                <div style='padding: 40px 30px;'>
+                    <h2 style='color: #0f172a; margin: 0 0 20px; font-size: 22px; font-weight: 700;'>Hello {$name},</h2>
+                    <p style='color: #475569; font-size: 16px; line-height: 1.6; margin-bottom: 24px;'>
+                        Thank you for reaching out to us. We have successfully received your inquiry regarding <strong style='color: #2563eb;'>{$service}</strong>. Our specialists are reviewing your requirements and will get back to you very soon.
+                    </p>
+                    
+                    <div style='background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 16px; padding: 20px; margin-bottom: 30px; text-align: center;'>
+                        <p style='color: #166534; font-size: 14px; font-weight: 600; margin: 0 0 12px;'>Need a faster response?</p>
+                        <a href='{$whatsapp_url}' style='display: inline-block; background: #22c55e; color: #ffffff; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14px; transition: background 0.2s;'>
+                            <img src='https://cdn-icons-png.flaticon.com/512/733/733585.png' width='14' height='14' style='vertical-align: middle; margin-right: 8px;'/>
+                            Chat on WhatsApp
+                        </a>
+                    </div>
+
+                    <div style='background: #f8fafc; border-radius: 16px; padding: 25px; border: 1px solid #f1f5f9;'>
+                        <h3 style='color: #64748b; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 12px;'>Your Message Reference</h3>
+                        <p style='color: #334155; font-size: 14px; font-style: italic; line-height: 1.5; margin: 0;'>\"{$message}\"</p>
+                    </div>
+                </div>
+
+                <div style='padding: 30px; border-top: 1px solid #f1f5f9; text-align: center; background: #fafafa;'>
+                    <p style='color: #94a3b8; font-size: 13px; margin: 0;'>
+                        Best regards,<br/>
+                        <strong style='color: #475569;'>Web Bird Support Team</strong>
+                    </p>
+                    <div style='margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f5f9; color: #cbd5e1; font-size: 11px;'>
+                        © 2026 Web Bird London. All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </div>";
 
     wp_mail($email, $cust_subject, $cust_body, $headers);
+    
     wp_send_json_success('Message sent successfully!');
 }
 
@@ -300,3 +347,90 @@ function filter_portfolio_handler() {
     }
     die();
 }
+
+// AJAX Newsletter Subscription Handler
+add_action('wp_ajax_webbird_subscribe', 'webbird_subscribe_handler');
+add_action('wp_ajax_nopriv_webbird_subscribe', 'webbird_subscribe_handler');
+
+// Modern Professional Newsletter Subscription Handler
+function webbird_subscribe_handler() {
+    $email = sanitize_email($_POST['email']);
+    
+    if (!is_email($email)) {
+        wp_send_json_error('Invalid email address.');
+    }
+
+    $admin_email = get_option('admin_email');
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    $whatsapp_url = "https://wa.me/447557126699";
+
+    // 1. Notify Admin
+    $admin_subject = "New Newsletter Subscriber: " . $email;
+    $admin_body = "
+        <div style='font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 12px;'>
+            <h2 style='color: #2563eb;'>New Subscription Received</h2>
+            <p>A new user has subscribed to the Web Bird newsletter.</p>
+            <p><strong>Subscriber Email:</strong> {$email}</p>
+            <hr style='border:none; border-top:1px solid #eee;'>
+            <p style='font-size: 10px; color: #999;'>Sent from Web Bird OS Dashboard</p>
+        </div>";
+    wp_mail($admin_email, $admin_subject, $admin_body, $headers);
+
+    // 2. Modern Professional Confirmation to User
+    $cust_subject = "Welcome to the Web Bird Community!";
+    $cust_body = "
+        <div style='background-color: #f8fafc; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif;'>
+            <div style='max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8e0;'>
+                <div style='background: linear-gradient(135deg, #23a6d5, #23d5ab); padding: 40px 30px; text-align: center;'>
+                    <h1 style='color: #ffffff; margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.025em;'>Web Bird</h1>
+                    <p style='color: rgba(255,255,255,0.9); margin-top: 10px; font-size: 16px;'>You're on the list!</p>
+                </div>
+                
+                <div style='padding: 40px 30px;'>
+                    <h2 style='color: #0f172a; margin: 0 0 20px; font-size: 22px; font-weight: 700;'>Thanks for joining,</h2>
+                    <p style='color: #475569; font-size: 16px; line-height: 1.6; margin-bottom: 24px;'>
+                        You've successfully subscribed to our newsletter. You'll now be the first to receive exclusive insights on digital strategy, web trends, and special updates directly from our London studio.
+                    </p>
+                    
+                    <div style='background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 16px; padding: 20px; margin-bottom: 30px; text-align: center;'>
+                        <p style='color: #166534; font-size: 14px; font-weight: 600; margin: 0 0 12px;'>Have a specific project in mind?</p>
+                        <a href='{$whatsapp_url}' style='display: inline-block; background: #22c55e; color: #ffffff; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14px;'>
+                            Quick Chat on WhatsApp
+                        </a>
+                    </div>
+
+                    <p style='color: #64748b; font-size: 13px; line-height: 1.5; text-align: center;'>
+                        Stay tuned for our next update. We promise to only send content that helps your business grow.
+                    </p>
+                </div>
+
+                <div style='padding: 30px; border-top: 1px solid #f1f5f9; text-align: center; background: #fafafa;'>
+                    <p style='color: #94a3b8; font-size: 13px; margin: 0;'>
+                        Best regards,<br/>
+                        <strong style='color: #475569;'>Web Bird Team</strong>
+                    </p>
+                    <div style='margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f5f9; color: #cbd5e1; font-size: 11px;'>
+                        © 2026 Web Bird London. <br/>
+                        If you didn't mean to subscribe, you can safely ignore this email.
+                    </div>
+                </div>
+            </div>
+        </div>";
+
+    wp_mail($email, $cust_subject, $cust_body, $headers);
+    wp_send_json_success('Subscribed successfully!');
+}
+
+
+/**
+ * Change the default WordPress "From" name and email address
+ */
+// 1. Change the "From" Name to Web Bird
+add_filter('wp_mail_from_name', function($old) {
+    return 'Web Bird';
+});
+
+// 2. Optional: Change the "From" Email address to your business email
+add_filter('wp_mail_from', function($old) {
+    return 'hi@webbird.co.uk';
+});

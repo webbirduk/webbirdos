@@ -207,52 +207,13 @@ get_header(); ?>
                     <h3 class="text-3xl sm:text-4xl font-black text-slate-900">See What Our Beloved Users Said About Us</h3>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Testimonial 1 -->
-                    <div class="bg-white/40 p-10 rounded-[2.5rem] border border-white/60">
-                        <div class="flex text-yellow-500 mb-6 space-x-1">
-                            <i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i>
-                        </div>
-                        <p class="text-sm text-slate-600 leading-relaxed mb-8 italic">"Everything I Needed in One Place !! I'm so glad I found Web Bird. They built my website, designed all my branding, and even handled my social media. It saved me time and stress."</p>
-                        <div>
-                            <h4 class="text-base font-black text-slate-900">Mehmet Aslan</h4>
-                            <p class="text-[10px] text-blue-600 font-black uppercase tracking-widest">Founder of Law Firm</p>
-                        </div>
-                    </div>
-                    <!-- Testimonial 2 -->
-                    <div class="bg-white/40 p-10 rounded-[2.5rem] border border-white/60">
-                        <div class="flex text-yellow-500 mb-6 space-x-1">
-                            <i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i>
-                        </div>
-                        <p class="text-sm text-slate-600 leading-relaxed mb-8 italic">"Top-Tier Web Agency for Custom Development Projects.! I had a unique idea for my website, and Web Bird turned it into reality with custom development."</p>
-                        <div>
-                            <h4 class="text-base font-black text-slate-900">Manikanta</h4>
-                            <p class="text-[10px] text-purple-600 font-black uppercase tracking-widest">Marketing Director</p>
-                        </div>
-                    </div>
-                    <!-- Testimonial 3 -->
-                    <div class="bg-white/40 p-10 rounded-[2.5rem] border border-white/60">
-                        <div class="flex text-yellow-500 mb-6 space-x-1">
-                            <i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i>
-                        </div>
-                        <p class="text-sm text-slate-600 leading-relaxed mb-8 italic">"Web Bird created a stunning, mobile-friendly website for my business. Their web designers in London are professional, creative, and highly skilled."</p>
-                        <div>
-                            <h4 class="text-base font-black text-slate-900">Dhrumil Kalyani</h4>
-                            <p class="text-[10px] text-pink-600 font-black uppercase tracking-widest">Owner of Gym</p>
-                        </div>
-                    </div>
-                    <!-- Testimonial 4 -->
-                    <div class="bg-white/40 p-10 rounded-[2.5rem] border border-white/60">
-                        <div class="flex text-yellow-500 mb-6 space-x-1">
-                            <i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i><i class="fas fa-star text-[10px]"></i>
-                        </div>
-                        <p class="text-sm text-slate-600 leading-relaxed mb-8 italic">"Great Service and Great People. Web Bird helped me launch my business online. They handled the website, branding visuals, and even gave my social media a fresh, consistent look."</p>
-                        <div>
-                            <h4 class="text-base font-black text-slate-900">Amran</h4>
-                            <p class="text-[10px] text-emerald-600 font-black uppercase tracking-widest">Business Owner</p>
-                        </div>
+                 <div class="p-8 sm:p-16">
+                    
+                    <div class="trustindex-container max-w-5xl mx-auto">
+                        <?php echo do_shortcode('[trustindex no-registration=google]'); ?>
                     </div>
                 </div>
+                
             </div>
         </div>
     </section>

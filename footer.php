@@ -18,10 +18,10 @@
             <div class="text-center lg:text-left">
                 <h4 class="text-xs font-black uppercase tracking-widest mb-6 text-slate-900">Company</h4>
                 <ul class="space-y-4 text-sm text-slate-500 font-medium">
-                    <li><a href="javascript:void(0)" onclick="toggleAboutModal()" class="hover:text-blue-600">About Us</a></li>
-                    <li><a href="javascript:void(0)" onclick="toggleServicesModal()" class="hover:text-blue-600">Services</a></li>
-                    <li><a href="javascript:void(0)" onclick="togglePricingModal()" class="hover:text-blue-600">Pricing Plan</a></li>
-                    <li><a href="javascript:void(0)" onclick="toggleModal()" class="hover:text-blue-600">Contact Us</a></li>
+                    <li><a href="https://webbird.co.uk/about-us/"  class="hover:text-blue-600">About Us</a></li>
+                    <li><a href="https://webbird.co.uk/services/" class="hover:text-blue-600">Services</a></li>
+                    <li><a href="https://webbird.co.uk/website-design-prices-uk/"  class="hover:text-blue-600">Pricing Plan</a></li>
+                    <li><a href="https://webbird.co.uk/contact-us/" class="hover:text-blue-600">Contact Us</a></li>
                 </ul>
             </div>
 
@@ -53,10 +53,14 @@
                 <h4 class="text-xl font-black mb-1">Subscribe to our news</h4>
                 <p class="text-xs text-slate-500 font-medium">Get notifications about new insights.</p>
             </div>
-            <div class="flex flex-col sm:flex-row w-full lg:w-auto gap-3">
-                <input type="email" placeholder="Email Address" class="w-full sm:w-64 px-6 py-4 rounded-2xl glass border border-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                <button class="w-full sm:w-auto px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-black transition text-sm">Subscribe</button>
-            </div>
+            <form id="newsletter-form" class="flex flex-col sm:flex-row w-full lg:w-auto gap-3">
+                <input type="email" name="subscribe_email" placeholder="Email Address" required 
+                       class="w-full sm:w-64 px-6 py-4 rounded-2xl glass border border-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                <button type="submit" class="w-full sm:w-auto px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-black transition text-sm">
+                    <span id="sub-btn-text">Subscribe</span>
+                </button>
+            </form>
+            <p id="subscribe-response" class="text-[10px] font-bold mt-2 hidden"></p>
         </div>
 
         <div class="pt-8 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-6 text-[11px] text-slate-400 font-bold uppercase text-center">
@@ -480,6 +484,47 @@
             });
         }
     });
+    
+    // Newsletter Subscription Logic
+    document.getElementById('newsletter-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = this;
+        const btnText = document.getElementById('sub-btn-text');
+        const response = document.getElementById('subscribe-response');
+        const email = form.querySelector('input[name="subscribe_email"]').value;
+    
+        btnText.textContent = 'Processing...';
+        response.classList.add('hidden');
+    
+        const formData = new FormData();
+        formData.append('action', 'webbird_subscribe');
+        formData.append('email', email);
+    
+        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                response.textContent = "Thank you for subscribing!";
+                response.className = "text-[10px] font-bold mt-2 text-green-600 block";
+                form.reset();
+            } else {
+                throw new Error(data.data);
+            }
+        })
+        .catch((err) => {
+            response.textContent = err.message || "Subscription failed.";
+            response.className = "text-[10px] font-bold mt-2 text-red-600 block";
+        })
+        .finally(() => {
+            btnText.textContent = 'Subscribe';
+        });
+    });
+    
+    
+    
 </script>
 
 <?php wp_footer(); ?>
