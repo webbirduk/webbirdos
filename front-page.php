@@ -412,56 +412,85 @@
         </section>
 
         <!-- CASE STUDIES - FULLY LOADED -->
-        <section id="case-studies">
-            <div class="glass rounded-[1rem] border border-white/50 overflow-hidden">
-                <!-- Dummy Window Header -->
-                <div class="h-8 bg-gray-200/50 flex items-center px-4 space-x-2 border-b border-gray-300/30">
-                    <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                    <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-                    <div class="w-3 h-3 rounded-full bg-green-400"></div>
+       <section id="case-studies" class="py-10">
+    <div class="glass rounded-[2rem] border border-white/50 overflow-hidden shadow-2xl">
+        <div class="h-10 bg-gray-200/50 flex items-center px-6 space-x-2 border-b border-gray-300/30">
+            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+        </div>
+        
+        <div class="p-10 sm:p-20">
+            <div class="flex flex-col lg:flex-row justify-between items-center lg:items-end mb-16 gap-8 text-center lg:text-left">
+                <div>
+                    <h2 class="text-blue-600 font-black text-xs uppercase tracking-widest mb-4">Success Stories</h2>
+                    <h3 class="text-4xl sm:text-6xl font-black tracking-tight text-slate-900">Recent Projects</h3>
                 </div>
-                <div class="p-12 sm:p-20">
-                    <div class="flex flex-col lg:flex-row justify-between items-end mb-12 gap-6">
-                        <div>
-                            <h2 class="text-blue-600 font-black text-xs uppercase tracking-widest mb-4">Success Stories</h2>
-                            <h3 class="text-3xl sm:text-5xl font-black tracking-tight">Recent Projects We've Launched</h3>
-                        </div>
-                        <button class="px-8 py-3 bg-slate-900 text-white text-xs font-bold rounded-full hover:bg-black transition">View Full Portfolio</button>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                        <!-- Project 1 -->
-                        <div class="bg-white/40 p-10 rounded-[2.5rem] border border-white/60 group hover:bg-white/60 transition-all duration-500">
-                            <div class="flex justify-between items-start mb-6">
-                                <span class="px-4 py-1.5 bg-blue-500/10 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest">E-Commerce</span>
-                                <i class="fas fa-external-link-alt text-slate-400 group-hover:text-blue-500 transition"></i>
-                            </div>
-                            <h4 class="text-2xl font-black mb-4">Luxe London Fashion</h4>
-                            <p class="text-sm text-slate-600 leading-relaxed mb-6 italic">Transformed a boutique fashion brand with a high-performance Shopify store resulting in a 40% increase in mobile sales.</p>
-                            <div class="flex flex-wrap gap-2 pt-4 border-t border-black/5">
-                                <span class="text-[9px] font-bold text-slate-400 bg-black/5 px-2 py-1 rounded">SHOPIFY</span>
-                                <span class="text-[9px] font-bold text-slate-400 bg-black/5 px-2 py-1 rounded">SEO</span>
-                                <span class="text-[9px] font-bold text-slate-400 bg-black/5 px-2 py-1 rounded">UI DESIGN</span>
-                            </div>
-                        </div>
-                        <!-- Project 2 -->
-                        <div class="bg-white/40 p-10 rounded-[2.5rem] border border-white/60 group hover:bg-white/60 transition-all duration-500">
-                            <div class="flex justify-between items-start mb-6">
-                                <span class="px-4 py-1.5 bg-emerald-500/10 text-emerald-600 rounded-full text-[10px] font-black uppercase tracking-widest">Real Estate</span>
-                                <i class="fas fa-external-link-alt text-slate-400 group-hover:text-emerald-500 transition"></i>
-                            </div>
-                            <h4 class="text-2xl font-black mb-4">Metro Living Agency</h4>
-                            <p class="text-sm text-slate-600 leading-relaxed mb-6 italic">Built a bespoke property management portal with real-time API integrations and interactive London map search.</p>
-                            <div class="flex flex-wrap gap-2 pt-4 border-t border-black/5">
-                                <span class="text-[9px] font-bold text-slate-400 bg-black/5 px-2 py-1 rounded">REACT.JS</span>
-                                <span class="text-[9px] font-bold text-slate-400 bg-black/5 px-2 py-1 rounded">API</span>
-                                <span class="text-[9px] font-bold text-slate-400 bg-black/5 px-2 py-1 rounded">UX STRATEGY</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <a href="<?php echo site_url('/portfolio'); ?>" class="px-10 py-4 bg-slate-900 text-white text-xs font-bold rounded-full hover:bg-black transition shadow-xl transform hover:-translate-y-1">
+                    View Full Portfolio
+                </a>
             </div>
-        </section>
 
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                <?php
+                global $wpdb;
+                $table_name = $wpdb->prefix . 'case_studies';
+                $projects = $wpdb->get_results("SELECT * FROM $table_name LIMIT 2"); // Front page usually shows recent 2
+
+                if ($projects) :
+                    foreach ($projects as $project) :
+                        $tech_stack = explode(',', $project->tech_keywords);
+                        $colors = [
+                            'blue' => 'bg-blue-500/10 text-blue-600',
+                            'emerald' => 'bg-emerald-500/10 text-emerald-600',
+                            'purple' => 'bg-purple-500/10 text-purple-600'
+                        ];
+                        $badge_style = $colors[$project->category_color] ?? $colors['blue'];
+                ?>
+                    <div class="bg-white/40 rounded-[2.5rem] border border-white/60 group hover:bg-white/80 transition-all duration-500 overflow-hidden shadow-sm hover:shadow-2xl">
+                        
+                        <div class="h-64 overflow-hidden bg-slate-200 relative">
+                            <?php if($project->project_image): ?>
+                                <img src="<?php echo esc_url($project->project_image); ?>" alt="<?php echo esc_attr($project->project_name); ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <?php else: ?>
+                                <div class="flex items-center justify-center h-full text-slate-400 font-bold italic">Image Coming Soon</div>
+                            <?php endif; ?>
+                            
+                            <div class="absolute top-6 left-6">
+                                <span class="px-4 py-1.5 <?php echo $badge_style; ?> backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest">
+                                    <?php echo esc_html($project->category); ?>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="p-10">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="text-2xl font-black text-slate-900"><?php echo esc_html($project->project_name); ?></h4>
+                                <a href="<?php echo esc_url($project->project_url); ?>" target="_blank">
+                                    <i class="fas fa-external-link-alt text-slate-300 group-hover:text-blue-500 transition"></i>
+                                </a>
+                            </div>
+                            
+                            <p class="text-sm text-slate-600 leading-relaxed mb-6 italic opacity-80">
+                                <?php echo esc_html($project->description); ?>
+                            </p>
+                            
+                            <div class="flex flex-wrap gap-2 pt-6 border-t border-black/5">
+                                <?php foreach ($tech_stack as $tech) : ?>
+                                    <span class="text-[9px] font-bold text-slate-400 bg-black/5 px-2 py-1 rounded">
+                                        <?php echo esc_html(trim($tech)); ?>
+                                    </span>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; endif; ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+       
         <!-- TECH STACK SECTION -->
         <section id="tech-stack">
             <div class="glass rounded-[3rem] p-12 text-center border border-white/50">
@@ -586,6 +615,7 @@
                 </div>
             </div>
         </section>
+        
 
     </main>
 
