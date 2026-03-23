@@ -432,60 +432,58 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
-                <?php
-                global $wpdb;
-                $table_name = $wpdb->prefix . 'case_studies';
-                $projects = $wpdb->get_results("SELECT * FROM $table_name LIMIT 2"); // Front page usually shows recent 2
+    <?php
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'case_studies';
+    $projects = $wpdb->get_results("SELECT * FROM $table_name LIMIT 2");
 
-                if ($projects) :
-                    foreach ($projects as $project) :
-                        $tech_stack = explode(',', $project->tech_keywords);
-                        $colors = [
-                            'blue' => 'bg-blue-500/10 text-blue-600',
-                            'emerald' => 'bg-emerald-500/10 text-emerald-600',
-                            'purple' => 'bg-purple-500/10 text-purple-600'
-                        ];
-                        $badge_style = $colors[$project->category_color] ?? $colors['blue'];
-                ?>
-                    <div class="bg-white/40 rounded-[2.5rem] border border-white/60 group hover:bg-white/80 transition-all duration-500 overflow-hidden shadow-sm hover:shadow-2xl">
-                        
-                        <div class="h-74 overflow-hidden bg-slate-200 relative">
-                            <?php if($project->project_image): ?>
-                                <img src="<?php echo esc_url($project->project_image); ?>" alt="<?php echo esc_attr($project->project_name); ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <?php else: ?>
-                                <div class="flex items-center justify-center h-full text-slate-400 font-bold italic">Image Coming Soon</div>
-                            <?php endif; ?>
-                            
-                            <div class="absolute top-6 left-6">
-                                <span class="px-4 py-1.5 <?php echo $badge_style; ?> backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest">
-                                    <?php echo esc_html($project->category); ?>
-                                </span>
-                            </div>
-                        </div>
+    if ($projects) :
+        foreach ($projects as $project) :
+            $tech_stack = explode(',', $project->tech_keywords);
+            $colors = [
+                'blue' => 'bg-blue-600',
+                'emerald' => 'bg-emerald-600',
+                'purple' => 'bg-purple-600'
+            ];
+            $overlay_color = $colors[$project->category_color] ?? $colors['blue'];
+    ?>
+        <div class="relative group h-75 overflow-hidden rounded-[1rem] shadow-2xl cursor-pointer" 
+             onclick="window.open('<?php echo esc_url($project->project_url); ?>', '_blank')">
+            
+            <?php if($project->project_image): ?>
+                <img src="<?php echo esc_url($project->project_image); ?>" 
+                     alt="<?php echo esc_attr($project->project_name); ?>" 
+                     class="w-full h-75 object-cover transition-transform duration-700 group-hover:scale-110">
+            <?php else: ?>
+                <div class="w-full h-75 bg-slate-200 flex items-center justify-center text-slate-400 font-bold italic">Image Coming Soon</div>
+            <?php endif; ?>
 
-                        <div class="p-10">
-                            <div class="flex justify-between items-start mb-4">
-                                <h4 class="text-2xl font-black text-slate-900"><?php echo esc_html($project->project_name); ?></h4>
-                                <a href="<?php echo esc_url($project->project_url); ?>" target="_blank">
-                                    <i class="fas fa-external-link-alt text-slate-300 group-hover:text-blue-500 transition"></i>
-                                </a>
-                            </div>
-                            
-                            <p class="text-sm text-slate-600 leading-relaxed mb-6 italic opacity-80">
-                                <?php echo esc_html($project->description); ?>
-                            </p>
-                            
-                            <div class="flex flex-wrap gap-2 pt-6 border-t border-black/5">
-                                <?php foreach ($tech_stack as $tech) : ?>
-                                    <span class="text-[9px] font-bold text-slate-400 bg-black/5 px-2 py-1 rounded">
-                                        <?php echo esc_html(trim($tech)); ?>
-                                    </span>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; endif; ?>
+            <div class="absolute inset-0 <?php echo $overlay_color; ?>/90 opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-sm flex flex-col justify-center items-center p-10 text-center">
+                
+                <span class="px-4 py-1 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest mb-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <?php echo esc_html($project->category); ?>
+                </span>
+
+                <h4 class="text-3xl font-black text-white mb-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                    <?php echo esc_html($project->project_name); ?>
+                </h4>
+                
+                <div class="flex flex-wrap justify-center gap-2 mb-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">
+                    <?php foreach ($tech_stack as $tech) : ?>
+                        <span class="text-[9px] font-bold text-white/80 border border-white/30 px-2 py-1 rounded uppercase">
+                            <?php echo esc_html(trim($tech)); ?>
+                        </span>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-900 shadow-xl transform scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 delay-150">
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
             </div>
+        </div>
+    <?php endforeach; endif; ?>
+</div>
+            
         </div>
     </div>
 </section>
