@@ -86,8 +86,12 @@
 
     <div class="w-full h-8 dark-glass fixed top-0 left-0 z-[100] flex items-center px-4 justify-between text-white text-[10px] sm:text-xs font-semibold">
         <div class="flex items-center space-x-3 sm:space-x-4">
-            <i class="fab fa-apple text-base sm:text-lg cursor-pointer hover:opacity-70" onclick="toggleMobileMenu()"></i>
-            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="font-bold text-white no-underline"><?php bloginfo('name'); ?></a>
+           <img src="https://webbird.co.uk/wp-content/uploads/2026/03/webbirduklogo.png" 
+             alt="WebBird Logo" 
+             class="h-6 w-auto cursor-pointer hover:opacity-80 transition-opacity invert brightness-0 invert-[1]" 
+     style="filter: brightness(0) invert(1);"
+             onclick="window.location.href='<?php echo esc_url( home_url( '/' ) ); ?>'">
+         <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="font-bold text-white no-underline"><?php bloginfo('name'); ?></a>
             
             <nav class="top-nav hidden md:block">
                 <?php
@@ -114,7 +118,12 @@
         </button>
         
         <div class="w-full max-w-sm text-center">
-            <i class="fab fa-apple text-6xl mb-10 opacity-20"></i>
+             <img src="https://webbird.co.uk/wp-content/uploads/2026/03/webbirduklogo.png" 
+             alt="WebBird Logo" 
+class="h-24 w-auto mx-auto block cursor-pointer hover:opacity-80 transition-opacity mb-10 invert brightness-0 invert-[1]" 
+             onclick="window.location.href='<?php echo esc_url( home_url( '/' ) ); ?>'" style="filter: brightness(0) invert(1);">
+             
+             
             
             <nav class="space-y-6 mb-12">
                 <?php
@@ -140,7 +149,7 @@
                 </div>
                 <div class="flex items-center justify-center space-x-3">
                     <i class="fas fa-phone text-blue-400"></i>
-                    <span>+44 7557 126699</span>
+                    <span>+44 20 3488 1969</span>
                 </div>
                 <div class="flex items-center justify-center space-x-3">
                     <i class="fas fa-envelope text-blue-400"></i>

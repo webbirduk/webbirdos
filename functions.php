@@ -288,6 +288,7 @@ function data_fetch() {
 add_action('wp_ajax_filter_portfolio', 'filter_portfolio_handler');
 add_action('wp_ajax_nopriv_filter_portfolio', 'filter_portfolio_handler');
 
+// Updated AJAX Portfolio Filter Handler in functions.php
 function filter_portfolio_handler() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'case_studies';
@@ -301,10 +302,17 @@ function filter_portfolio_handler() {
 
     if ($projects) {
         foreach ($projects as $project) {
-            $color = $project->category_color ?: 'blue';
+            $color_map = [
+                'blue' => 'bg-blue-600',
+                'emerald' => 'bg-emerald-600',
+                'purple' => 'bg-purple-600'
+            ];
+            $overlay_color = $color_map[$project->category_color] ?? $color_map['blue'];
             $display_host = parse_url($project->project_url, PHP_URL_HOST) ?: 'View Project';
+            $tech_stack = explode(',', $project->tech_keywords);
             ?>
-            <div class="os-window glass rounded-[2.5rem] overflow-hidden group border border-white/40 hover:bg-white transition-all duration-500 shadow-xl flex flex-col animate-in fade-in zoom-in duration-500">
+            
+            <div class="os-window glass rounded-[1rem] overflow-hidden group border border-white/40 shadow-xl flex flex-col animate-in fade-in zoom-in duration-300">
                 <div class="h-8 bg-gray-100/50 flex items-center px-4 space-x-2 border-b border-gray-300/30">
                     <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
                     <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
@@ -314,36 +322,40 @@ function filter_portfolio_handler() {
                     </div>
                 </div>
                 
-                <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                    <img src="<?php echo esc_url($project->project_image); ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                </div>
+                <div class="relative bg-slate-100 overflow-hidden cursor-pointer" 
+                     onclick="window.open('<?php echo esc_url($project->project_url); ?>', '_blank')">
+                    
+                    <img src="<?php echo esc_url($project->project_image); ?>" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
 
-                <div class="p-10 flex-grow flex flex-col">
-                    <div class="flex justify-between items-start mb-6">
-                        <span class="px-4 py-1.5 bg-<?php echo $color; ?>-500/10 text-<?php echo $color; ?>-600 rounded-full text-[10px] font-black uppercase tracking-widest">
+                    <div class="absolute inset-0 <?php echo $overlay_color; ?>/90 opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm flex flex-col justify-center items-center p-8 text-center">
+                        
+                        <span class="px-4 py-1 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest mb-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                             <?php echo esc_html($project->category); ?>
                         </span>
-                        <a href="<?php echo esc_url($project->project_url); ?>" target="_blank" class="w-8 h-8 rounded-full glass flex items-center justify-center text-slate-400 hover:text-blue-600 transition">
-                            <i class="fas fa-external-link-alt text-xs"></i>
-                        </a>
-                    </div>
-                    
-                    <h4 class="text-2xl font-black text-slate-900 mb-4"><?php echo esc_html($project->project_name); ?></h4>
-                    <p class="text-sm text-slate-500 leading-relaxed mb-8"><?php echo esc_html($project->description); ?></p>
-                    
-                    <div class="mt-auto pt-6 border-t border-black/5 flex flex-wrap gap-2">
-                        <?php 
-                        $tags = explode(',', $project->tech_keywords);
-                        foreach($tags as $tag): if(trim($tag)): ?>
-                            <span class="text-[9px] font-bold text-slate-400 bg-black/5 px-2 py-1 rounded uppercase"><?php echo esc_html(trim($tag)); ?></span>
-                        <?php endif; endforeach; ?>
+
+                        <h4 class="text-2xl font-black text-white mb-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                            <?php echo esc_html($project->project_name); ?>
+                        </h4>
+                        
+                        <div class="flex flex-wrap justify-center gap-2 mb-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-100">
+                            <?php foreach ($tech_stack as $tech) : if(trim($tech)): ?>
+                                <span class="text-[9px] font-bold text-white/80 border border-white/30 px-2 py-1 rounded uppercase">
+                                    <?php echo esc_html(trim($tech)); ?>
+                                </span>
+                            <?php endif; endforeach; ?>
+                        </div>
+
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-900 shadow-xl transform scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 delay-150">
+                            <i class="fas fa-external-link-alt"></i>
+                        </div>
                     </div>
                 </div>
             </div>
             <?php
         }
     } else {
-        echo '<div class="col-span-full py-20 text-center glass rounded-3xl">No projects found in this category.</div>';
+        echo '<div class="col-span-full py-20 text-center glass rounded-3xl">No projects found.</div>';
     }
     die();
 }

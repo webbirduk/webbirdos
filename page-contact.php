@@ -41,8 +41,8 @@ get_header(); ?>
                             <a href="https://wa.me/447557126699" target="_blank" class="text-sm font-bold text-green-600 hover:underline">+44 7557 126699</a>
                         </div>
                         <div class="space-y-2">
-                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Response Time</h4>
-                            <p class="text-sm font-bold text-slate-800">Within 24 Hours</p>
+                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Phone Number</h4>
+                            <a href="tel:+442034881969" class="text-sm font-bold text-slate-800 hover:text-blue-600">+44 20 3488 1969</a>
                         </div>
                     </div>
                 </div>

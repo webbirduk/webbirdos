@@ -3,7 +3,13 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
             <div class="lg:col-span-2 text-center lg:text-left">
                 <div class="flex items-center justify-center lg:justify-start space-x-3 mb-6">
-                    <i class="fab fa-apple text-3xl text-slate-900"></i>
+                    <div class="">
+                        <img src="https://webbird.co.uk/wp-content/uploads/2026/03/webbirduklogo.png" 
+                             alt="WebBird Logo" 
+                             class="h-10 w-auto cursor-pointer hover:opacity-80 transition-opacity" 
+                             style="filter: brightness(0);"
+                             onclick="window.location.href='<?php echo esc_url( home_url( '/' ) ); ?>'">
+                    </div>
                     <span class="text-2xl font-black tracking-tighter">WebBird</span>
                 </div>
                 <p class="text-sm text-slate-600 leading-relaxed mb-8 mx-auto lg:mx-0 max-w-xs">
@@ -41,6 +47,10 @@
                         <span>Halley Rd, London E12 6UB</span>
                     </li>
                     <li class="flex items-center justify-center lg:justify-start space-x-3">
+                        <i class="fas fa-phone text-blue-600"></i>
+                        <a href="tel:+442034881969">+44 20 3488 1969</a>
+                    </li>
+                    <li class="flex items-center justify-center lg:justify-start space-x-3">
                         <i class="fas fa-envelope text-blue-600"></i>
                         <a href="mailto:hi@webbird.co.uk">hi@webbird.co.uk</a>
                     </li>
@@ -64,7 +74,7 @@
         </div>
 
         <div class="pt-8 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-6 text-[11px] text-slate-400 font-bold uppercase text-center">
-            <p>© Webbird By Arafat. All Right Reserved 2026.</p>
+            <p>© Webbird. All Right Reserved 2026.</p>
         </div>
     </footer>
 </div>
@@ -520,6 +530,39 @@
         })
         .finally(() => {
             btnText.textContent = 'Subscribe';
+        });
+    });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const track = document.getElementById('project-slider-track');
+        const slides = document.querySelectorAll('.project-slide');
+        if (!track || slides.length === 0) return;
+
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+
+        function updateSlider() {
+            const isMobile = window.innerWidth < 768;
+            const slidesToShow = isMobile ? 1 : 2;
+            const maxIndex = totalSlides - slidesToShow;
+
+            if (currentIndex > maxIndex) {
+                currentIndex = 0; // Reset to start
+            }
+
+            const slideWidth = 100 / slidesToShow;
+            track.style.transform = `translateX(-${currentIndex * slideWidth}%)`;
+            currentIndex++;
+        }
+
+        // Auto slide every 3 seconds (adjust as needed)
+        // Note: The transition duration is set to 0.5s in the CSS class duration-500
+        setInterval(updateSlider, 3000);
+        
+        // Handle window resize to prevent alignment issues
+        window.addEventListener('resize', () => {
+            currentIndex = 0;
+            track.style.transform = 'translateX(0)';
         });
     });
     
